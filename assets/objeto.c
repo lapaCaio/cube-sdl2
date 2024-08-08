@@ -2,17 +2,60 @@
 #include <SDL2/SDL.h>
 #include "objeto.h"
 
-//Lê as informações de um arquivo e as carrega num novo objeto alocado
+//Lï¿½ as informaï¿½ï¿½es de um arquivo e as carrega num novo objeto alocado
 tObjeto3d *carregaObjeto(char *nomeArquivo){
+    FILE *arquivo = fopen(nomeArquivo, "r");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return NULL;
+    }
 
+    tObjeto3d *objeto = (tObjeto3d*)malloc(sizeof(tObjeto3d));
+    if (objeto == NULL) {
+        perror("Erro ao alocar memÃ³ria");
+        fclose(arquivo);
+        return NULL;
+    }
+
+    // LÃª a quantidade de pontos
+    fscanf(arquivo, "%d", &(objeto->nPontos));
+
+    // Aloca memÃ³ria para os pontos
+    objeto->pontos = (float**)malloc(objeto->nPontos * sizeof(float*));
+    for (int i = 0; i < objeto->nPontos; i++) {
+        objeto->pontos[i] = (float*)malloc(3 * sizeof(float));
+        fscanf(arquivo, "%f %f %f", &objeto->pontos[i][0], &objeto->pontos[i][1], &objeto->pontos[i][2]);
+    }
+
+    // LÃª a quantidade de arestas
+    fscanf(arquivo, "%d", &(objeto->nArestas));
+
+    // Aloca memÃ³ria para as arestas
+    objeto->arestas = (int**)malloc(objeto->nArestas * sizeof(int*));
+    for (int i = 0; i < objeto->nArestas; i++) {
+        objeto->arestas[i] = (int*)malloc(2 * sizeof(int));
+        fscanf(arquivo, "%d %d", &objeto->arestas[i][0], &objeto->arestas[i][1]);
+    }
+
+    // Inicializa a matriz de modelo como uma matriz identidade 4x4
+    objeto->modelMatrix = (float**)malloc(4 * sizeof(float*));
+    for (int i = 0; i < 4; i++) {
+        objeto->modelMatrix[i] = (float*)malloc(4 * sizeof(float));
+        for (int j = 0; j < 4; j++) {
+            objeto->modelMatrix[i][j] = (i == j) ? 1.0f : 0.0f;
+        }
+    }
+
+    fclose(arquivo);
+    return objeto;
 }
 
-//Altera a modelMatrix de um objeto para redimenciona-lo segundo os parâmetros escalaX, escalaY e escalaZ
+//Altera a modelMatrix de um objeto para redimenciona-lo segundo os parï¿½metros escalaX, escalaY e escalaZ
 void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ){
 
 }
 
-//Altera a modelMatrix de um objeto para translada-lo segundo os parâmetros transX, transY e transZ
+//Altera a modelMatrix de um objeto para translada-lo segundo os parï¿½metros transX, transY e transZ
 void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ){
 
 }
@@ -39,6 +82,23 @@ void imprimeObjetoDBG(tObjeto3d *objeto){
 
 //Desaloca o objeto
 void desalocaObjeto(tObjeto3d *objeto){
+    if (objeto != NULL) {
+        for (int i = 0; i < objeto->nPontos; i++) {
+            free(objeto->pontos[i]);
+        }
+        free(objeto->pontos);
 
+        for (int i = 0; i < objeto->nArestas; i++) {
+            free(objeto->arestas[i]);
+        }
+        free(objeto->arestas);
+
+        for (int i = 0; i < 4; i++) {
+            free(objeto->modelMatrix[i]);
+        }
+        free(objeto->modelMatrix);
+
+        free(objeto);
+    }
 }
 
