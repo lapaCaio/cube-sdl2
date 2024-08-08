@@ -1,30 +1,41 @@
-# Regra principal que depende da regra 'compilaTrabalho'
-all: compilaTrabalho
+# Compilador e flags
+CC = gcc
+CFLAGS = -Wall -Iinclude `sdl2-config --cflags`
 
-# Regra para compilar o trabalho, unindo todos os arquivos objeto
-compilaTrabalho: main.o algebra.o objeto.o tela.o
-	g++ main.o algebra.o objeto.o tela.o -o trabalhoCompilado -lSDL2
+# Diretórios
+SRC_DIR = src
+INCLUDE_DIR = include
+BUILD_DIR = build
+BIN_DIR = bin
+ASSETS_DIR = assets
 
-# Regras para criar os arquivos objeto individualmente
-main.o: main.c
-	gcc -c main.c
+# Arquivos fonte e objetos
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
-algebra.o: algebra.c
-	gcc -c algebra.c
+# Nome do executável
+TARGET = $(BIN_DIR)/meu_projeto
 
-objeto.o: objeto.c
-	gcc -c objeto.c
+# SDL2 flags
+SDL2_LIBS = `sdl2-config --libs`
 
-tela.o: tela.c
-	gcc -c tela.c
+# Regra padrão
+all: $(TARGET)
 
-# Regra para limpar os arquivos gerados
+# Linkando o executável
+$(TARGET): $(OBJS) | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(SDL2_LIBS)
+
+# Compilando os arquivos objeto
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Criar diretórios, se não existirem
+$(BIN_DIR) $(BUILD_DIR):
+	mkdir -p $@
+
+# Limpeza
 clean:
-	rm -f *.o trabalhoCompilado
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
-# Regra para executar o programa com um arquivo de entrada
-run: compilaTrabalho
-	./trabalhoCompilado $(file)
-
-# Variável para armazenar o arquivo de entrada
-file ?= cubo.dcg
+.PHONY: all clean
