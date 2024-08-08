@@ -26,7 +26,7 @@ int main( int argc, char * argv[] ){
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
     
     // Ler o arquivo cubo.dcg e carregar o objeto 3D
-    tObjeto3d *objeto = carregaObjeto("assets/cubo.dcg");
+    tObjeto3d *objeto = carregaObjeto("cubo.dcg");
     if (objeto == NULL) {
         desalocaTela(window);
         SDL_Quit();

@@ -6,13 +6,13 @@
 tObjeto3d *carregaObjeto(char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "r");
     if (arquivo == NULL) {
-        perror("Erro ao abrir o arquivo");
+        perror("Não foi possível abrir o arquivo!");
         return NULL;
     }
 
     tObjeto3d *objeto = (tObjeto3d*)malloc(sizeof(tObjeto3d));
     if (objeto == NULL) {
-        perror("Erro ao alocar memória");
+        perror("Erro ao alocar memória. Não foi possível criar o objeto Cubo.");
         fclose(arquivo);
         return NULL;
     }
