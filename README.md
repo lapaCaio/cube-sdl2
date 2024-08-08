@@ -2,20 +2,23 @@
 
 ```
 /cube-sdl2
-├── bin/                  # Binários gerados após a compilação
-├── build/                # Arquivos temporários de compilação
-├── include/              # Arquivos de cabeçalho (.h)
-│   ├── algebra.h
-│   ├── objeto.h
-│   └── tela.h
-├── src/                  # Código fonte (.c)
+├── assets/                  # Arquivos de cabeçalho (.h) e arquivos de código (.c)
 │   ├── algebra.c
-│   ├── main.c
+│   ├── algebra.h
 │   ├── objeto.c
-│   └── tela.c
-├── assets/               # Arquivos de recursos (imagens, sons, etc.)
-│   └── cubo.dcg
-├── lib/                  # Bibliotecas externas (por exemplo, SDL2)
+│   ├── objeto.h
+│   ├── tela.c
+│   └── tela.h
+├── debug/                # Arquivos de debug
+├── src/                  
+│   ├── include/ 
+│   │   └── SDL2/
+│   └── lib/ 
+│       ├── cmake/
+│       └── pkgconfig/
+├── cubo.dcg
+├── main.c                # Arquivo principal 
 ├── Makefile              # Script de build
-└── README.md             # Documentação do projeto
+├── README.md             # Documentação do projeto
+└── SDL2.dll              
 ```
