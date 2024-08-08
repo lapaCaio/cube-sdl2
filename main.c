@@ -5,8 +5,14 @@
 #include "assets/algebra.h"
 
 //desenha um objeto na tela
-void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto){
-
+void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto) {
+    for (int i = 0; i < objeto->nArestas; i++) {
+        int ponto1 = objeto->arestas[i][0];
+        int ponto2 = objeto->arestas[i][1];
+        SDL_RenderDrawLine(renderer,
+                           objeto->pontos[ponto1][0], objeto->pontos[ponto1][1],
+                           objeto->pontos[ponto2][0], objeto->pontos[ponto2][1]);
+    }
 }
 
 
@@ -46,15 +52,8 @@ int main( int argc, char * argv[] ){
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-        // Aqui você pode desenhar o objeto usando 'objeto' e SDL
-        // Por exemplo, desenhando as arestas do cubo
-        for (int i = 0; i < objeto->nArestas; i++) {
-            int ponto1 = objeto->arestas[i][0];
-            int ponto2 = objeto->arestas[i][1];
-            SDL_RenderDrawLine(renderer,
-                               objeto->pontos[ponto1][0], objeto->pontos[ponto1][1],
-                               objeto->pontos[ponto2][0], objeto->pontos[ponto2][1]);
-        }
+        // Chama a função para desenhar o objeto na tela
+        desenhaObjetoTela(renderer, objeto->modelMatrix, objeto);
 
 
         SDL_RenderPresent(renderer);
