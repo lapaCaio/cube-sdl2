@@ -57,7 +57,11 @@ int main( int argc, char * argv[] ){
         //===================================
 
         criaIdentidade4d(objeto->modelMatrix);
-        transladaObjeto(objeto, 400.0f, 300.0f, 0.0f);
+        printf("ANTES DE TRANSLADAR");
+        imprimeObjetoDBG(objeto);
+        transladaObjeto(objeto, WIDTH / 2.0f, HEIGHT / 2.0f, 0.0f);
+        printf("DEPOIS DE TRANSLADAR");
+        imprimeObjetoDBG(objeto);
 
 
 
