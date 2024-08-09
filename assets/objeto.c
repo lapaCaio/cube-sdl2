@@ -53,41 +53,22 @@ tObjeto3d *carregaObjeto(char *nomeArquivo){
 
 //Altera a modelMatrix de um objeto para redimenciona-lo segundo os par�metros escalaX, escalaY e escalaZ
 void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ){
-    // Cria a matriz de escala
-    float **matrizEscala = (float **)malloc(4 * sizeof(float *));
-    for (int i = 0; i < 4; i++) {
-        matrizEscala[i] = (float *)malloc(4 * sizeof(float));
-        for (int j = 0; j < 4; j++) {
-            matrizEscala[i][j] = (i == j) ? ((i == 0) ? escalaX : (i == 1) ? escalaY : (i == 2) ? escalaZ : 1.0f) : 0.0f;
-        }
-    }
 
-    // Multiplica a matriz de modelo pela matriz de escala
-    float **novaMatriz = (float **)malloc(4 * sizeof(float *));
-    for (int i = 0; i < 4; i++) {
-        novaMatriz[i] = (float *)malloc(4 * sizeof(float));
-    }
-
-    multMatriz4d(matrizEscala, objeto->modelMatrix);
-
-    // Libera a memória da matriz de escala
-    for (int i = 0; i < 4; i++) {
-        free(matrizEscala[i]);
-    }
-    free(matrizEscala);
-
-    // Libera a memória da nova matriz (já está atualizada na modelMatrix)
-    for (int i = 0; i < 4; i++) {
-        free(novaMatriz[i]);
-    }
-    free(novaMatriz);
 }
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
 void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ) {
+    objeto->modelMatrix[0][3] = transX;
+    objeto->modelMatrix[1][3] = transY;
+    objeto->modelMatrix[2][3] = transZ;
     //pegar os pontos e transformar em coordenadas homogêneas (x, y, z, w=1)
-    converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
-    //multiplicar a model matrix por um ponto
+    float **homogeneas = converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
+
+    for(int i = 0; i < 8; i++) {
+        print("%1.2f", homogeneas[i]);
+    }
+    //multiplicar a model matrix por um ponto homogêneo. pegar esse ponto homogêneo 
+    
     //multiplicar a model matrix pela coordenada e salvar em coordenada
 }
 

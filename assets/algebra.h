@@ -13,3 +13,6 @@ float *multMatriz4dPonto(float **matriz, float *ponto);
 void multMatriz4d(float **matrizA, float **matrizB);
 
 float** converterParaCoordenadasHomogeneas(float **pontos, int nPontos);
+
+// Função para liberar a memória alocada para coordenadas homogêneas
+void liberarCoordenadasHomogeneas(float **homogeneas, int nPontos);
