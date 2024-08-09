@@ -68,7 +68,7 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
         novaMatriz[i] = (float *)malloc(4 * sizeof(float));
     }
 
-    multMatriz4d(objeto->modelMatrix, matrizEscala);
+    multMatriz4d(matrizEscala, objeto->modelMatrix);
 
     // Libera a memória da matriz de escala
     for (int i = 0; i < 4; i++) {
@@ -103,7 +103,7 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
         novaMatriz[i] = (float *)malloc(4 * sizeof(float));
     }
 
-    multMatriz4d(objeto->modelMatrix, matrizTranslacao);
+    multMatriz4d(matrizTranslacao, objeto->modelMatrix);
 
     // Libera a memória da matriz de translação
     for (int i = 0; i < 4; i++) {
