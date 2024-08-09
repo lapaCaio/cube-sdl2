@@ -68,3 +68,37 @@ void multMatriz4d(float **matrizA, float **matrizB) {
     }
     free(resultado);
 }
+
+// Função para converter pontos para coordenadas homogêneas
+float** converterParaCoordenadasHomogeneas(float **pontos, int nPontos) {
+    // Verificar se os dados estão corretamente alocados
+    if (!pontos) {
+        return NULL;
+    }
+
+    // Alocar memória para o vetor de coordenadas homogêneas
+    float **homogeneas = (float **)malloc(nPontos * sizeof(float *));
+    if (homogeneas == NULL) {
+        return NULL;
+    }
+    
+    for (int i = 0; i < nPontos; i++) {
+        homogeneas[i] = (float *)malloc(4 * sizeof(float)); // 4 coordenadas por ponto
+        if (homogeneas[i] == NULL) {
+            // Libera a memória alocada até o ponto onde falhou
+            for (int j = 0; j < i; j++) {
+                free(homogeneas[j]);
+            }
+            free(homogeneas);
+            return NULL;
+        }
+        
+        // Copiar coordenadas e adicionar o valor homogêneo
+        homogeneas[i][0] = pontos[i][0]; // x
+        homogeneas[i][1] = pontos[i][1]; // y
+        homogeneas[i][2] = pontos[i][2]; // z
+        homogeneas[i][3] = 1.0f; // w = 1 para coordenadas homogêneas
+    }
+
+    return homogeneas;
+}

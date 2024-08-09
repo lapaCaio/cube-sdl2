@@ -85,37 +85,10 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
 void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ) {
-     // Cria a matriz de translação
-    float **matrizTranslacao = (float **)malloc(4 * sizeof(float *));
-    for (int i = 0; i < 4; i++) {
-        matrizTranslacao[i] = (float *)malloc(4 * sizeof(float));
-        for (int j = 0; j < 4; j++) {
-            matrizTranslacao[i][j] = (i == j) ? 1.0f : 0.0f;
-            if (i == 0 && j == 3) matrizTranslacao[i][j] = transX;
-            if (i == 1 && j == 3) matrizTranslacao[i][j] = transY;
-            if (i == 2 && j == 3) matrizTranslacao[i][j] = transZ;
-        }
-    }
-
-    // Multiplica a matriz de modelo pela matriz de translação
-    float **novaMatriz = (float **)malloc(4 * sizeof(float *));
-    for (int i = 0; i < 4; i++) {
-        novaMatriz[i] = (float *)malloc(4 * sizeof(float));
-    }
-
-    multMatriz4d(matrizTranslacao, objeto->modelMatrix);
-
-    // Libera a memória da matriz de translação
-    for (int i = 0; i < 4; i++) {
-        free(matrizTranslacao[i]);
-    }
-    free(matrizTranslacao);
-
-    // Libera a memória da nova matriz (já está atualizada na modelMatrix)
-    for (int i = 0; i < 4; i++) {
-        free(novaMatriz[i]);
-    }
-    free(novaMatriz);
+    //pegar os pontos e transformar em coordenadas homogêneas (x, y, z, w=1)
+    converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
+    //multiplicar a model matrix por um ponto
+    //multiplicar a model matrix pela coordenada e salvar em coordenada
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
@@ -184,4 +157,6 @@ void desalocaObjeto(tObjeto3d *objeto){
         free(objeto);
     }
 }
+
+
 

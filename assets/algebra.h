@@ -11,3 +11,5 @@ float *multMatriz4dPonto(float **matriz, float *ponto);
 
 //Multiplica duas matrizes 4d salvando o resultado na segunda matriz
 void multMatriz4d(float **matrizA, float **matrizB);
+
+float** converterParaCoordenadasHomogeneas(float **pontos, int nPontos);
