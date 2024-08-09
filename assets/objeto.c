@@ -56,8 +56,29 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
 }
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
-void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ){
+void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ) {
+    // Criação da matriz de translação
+    float **matrizTranslacao = (float **)malloc(4 * sizeof(float *));
+    for (int i = 0; i < 4; i++) {
+        matrizTranslacao[i] = (float *)malloc(4 * sizeof(float));
+    }
 
+    // Inicializa a matriz de translação como a matriz identidade
+    criaIdentidade4d(matrizTranslacao);
+
+    // Define os elementos de translação
+    matrizTranslacao[0][3] = transX;
+    matrizTranslacao[1][3] = transY;
+    matrizTranslacao[2][3] = transZ;
+
+    // Multiplica a matriz de translação pela matriz de modelagem do objeto
+    multMatriz4d(matrizTranslacao, objeto->modelMatrix);
+
+    // Liberação da memória da matriz de translação
+    for (int i = 0; i < 4; i++) {
+        free(matrizTranslacao[i]);
+    }
+    free(matrizTranslacao);
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
@@ -76,8 +97,33 @@ void rotacionaObjetoEixoZ(tObjeto3d *objeto, float angulo){
 }
 
 //Imprime um objeto no terminal
-void imprimeObjetoDBG(tObjeto3d *objeto){
+void imprimeObjetoDBG(tObjeto3d *objeto) {
+    // Imprime o número de pontos e arestas
+    printf("Número de Pontos: %d\n", objeto->nPontos);
+    printf("Número de Arestas: %d\n", objeto->nArestas);
 
+    // Imprime as coordenadas dos pontos
+    printf("Pontos:\n");
+    for (int i = 0; i < objeto->nPontos; i++) {
+        printf("Ponto %d: (%1.2f, %1.2f, %1.2f)\n", i, objeto->pontos[i][0], objeto->pontos[i][1], objeto->pontos[i][2]);
+    }
+
+    // Imprime as arestas (conexões entre os pontos)
+    printf("Arestas:\n");
+    for (int i = 0; i < objeto->nArestas; i++) {
+        printf("Aresta %d: Ponto %d -> Ponto %d\n", i, objeto->arestas[i][0], objeto->arestas[i][1]);
+    }
+
+    // Imprime a matriz de modelagem 4x4
+    printf("Matriz de Modelagem:\n");
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%1.2f ", objeto->modelMatrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
 }
 
 //Desaloca o objeto

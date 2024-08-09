@@ -39,6 +39,8 @@ int main( int argc, char * argv[] ){
         return 1;
     }
 
+    imprimeObjetoDBG(&objeto);
+
     SDL_Event windowEvent;
     while(1){
         if( SDL_PollEvent(&windowEvent)){
@@ -52,7 +54,15 @@ int main( int argc, char * argv[] ){
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-        // Chama a função para desenhar o objeto na tela
+        //===================================
+
+        criaIdentidade4d(objeto->modelMatrix);
+        transladaObjeto(&objeto, 400.0f, 300.0f, 0.0f);
+
+
+
+        //===================================
+
         desenhaObjetoTela(renderer, objeto->modelMatrix, objeto);
 
 
