@@ -26,14 +26,14 @@ void imprimeMatriz4dDBG(float **matriz) {
 }
 
 //Multiplica uma matriz 4d por um ponto
-float *multMatriz4dPonto(float **matriz, float *ponto) {
+float *multMatriz4dPonto(float **matriz, float **ponto) {
     float *resultado = (float *)malloc(4 * sizeof(float));  //LEMBRAR DE LIBERAR A MEMÓRIA DEPOIS
 
     // Multiplicação da matriz pelo vetor ponto
     for (int i = 0; i < 4; i++) {
         resultado[i] = 0.0f;  // Inicializa o elemento do resultado
         for (int j = 0; j < 4; j++) {
-            resultado[i] += matriz[i][j] * ponto[j];
+            resultado[i] += matriz[i][j] * (*ponto[j]);
         }
     }
 

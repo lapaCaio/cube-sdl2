@@ -64,7 +64,7 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
     objeto->modelMatrix[2][3] = transZ;
 
     for(int i = 0; i < 4; i++) {
-        multMatriz4dPonto(objeto->modelMatrix, &objeto->pontos);   
+        multMatriz4dPonto(objeto->modelMatrix, objeto->pontos);   
     }
 }
 
