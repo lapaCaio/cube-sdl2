@@ -56,9 +56,9 @@ int main( int argc, char * argv[] ){
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
         //===================================
-        escalaObjeto(objeto, 2.0f, 1.5f, 1.0f);
-        transladaObjeto(objeto, 100.0f, 150.0f, 0.0f);
-        
+        // escalaObjeto(objeto, 2.0f, 1.5f, 1.0f);
+        transladaObjeto(objeto, 1.2f, 1.5f, 0.0f);
+
         printf("Depois de transladar saporra---------------------\n");
         imprimeObjetoDBG(objeto);
 
