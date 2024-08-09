@@ -53,19 +53,69 @@ tObjeto3d *carregaObjeto(char *nomeArquivo){
 
 //Altera a modelMatrix de um objeto para redimenciona-lo segundo os par�metros escalaX, escalaY e escalaZ
 void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ){
+    // Cria a matriz de escala
+    float **matrizEscala = (float **)malloc(4 * sizeof(float *));
+    for (int i = 0; i < 4; i++) {
+        matrizEscala[i] = (float *)malloc(4 * sizeof(float));
+        for (int j = 0; j < 4; j++) {
+            matrizEscala[i][j] = (i == j) ? ((i == 0) ? escalaX : (i == 1) ? escalaY : (i == 2) ? escalaZ : 1.0f) : 0.0f;
+        }
+    }
 
+    // Multiplica a matriz de modelo pela matriz de escala
+    float **novaMatriz = (float **)malloc(4 * sizeof(float *));
+    for (int i = 0; i < 4; i++) {
+        novaMatriz[i] = (float *)malloc(4 * sizeof(float));
+    }
+
+    multMatriz4d(objeto->modelMatrix, matrizEscala);
+
+    // Libera a memória da matriz de escala
+    for (int i = 0; i < 4; i++) {
+        free(matrizEscala[i]);
+    }
+    free(matrizEscala);
+
+    // Libera a memória da nova matriz (já está atualizada na modelMatrix)
+    for (int i = 0; i < 4; i++) {
+        free(novaMatriz[i]);
+    }
+    free(novaMatriz);
 }
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
 void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ) {
-    // Define os elementos de translação
-    objeto->modelMatrix[0][3] = transX;
-    objeto->modelMatrix[1][3] = transY;
-    objeto->modelMatrix[2][3] = transZ;
-
-    for(int i = 0; i < 4; i++) {
-        multMatriz4dPonto(objeto->modelMatrix, objeto->pontos);   
+     // Cria a matriz de translação
+    float **matrizTranslacao = (float **)malloc(4 * sizeof(float *));
+    for (int i = 0; i < 4; i++) {
+        matrizTranslacao[i] = (float *)malloc(4 * sizeof(float));
+        for (int j = 0; j < 4; j++) {
+            matrizTranslacao[i][j] = (i == j) ? 1.0f : 0.0f;
+            if (i == 0 && j == 3) matrizTranslacao[i][j] = transX;
+            if (i == 1 && j == 3) matrizTranslacao[i][j] = transY;
+            if (i == 2 && j == 3) matrizTranslacao[i][j] = transZ;
+        }
     }
+
+    // Multiplica a matriz de modelo pela matriz de translação
+    float **novaMatriz = (float **)malloc(4 * sizeof(float *));
+    for (int i = 0; i < 4; i++) {
+        novaMatriz[i] = (float *)malloc(4 * sizeof(float));
+    }
+
+    multMatriz4d(objeto->modelMatrix, matrizTranslacao);
+
+    // Libera a memória da matriz de translação
+    for (int i = 0; i < 4; i++) {
+        free(matrizTranslacao[i]);
+    }
+    free(matrizTranslacao);
+
+    // Libera a memória da nova matriz (já está atualizada na modelMatrix)
+    for (int i = 0; i < 4; i++) {
+        free(novaMatriz[i]);
+    }
+    free(novaMatriz);
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
