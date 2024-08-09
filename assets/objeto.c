@@ -63,13 +63,25 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
     objeto->modelMatrix[2][3] = transZ;
     //pegar os pontos e transformar em coordenadas homogêneas (x, y, z, w=1)
     float **homogeneas = converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
-
     //multiplicar a model matrix por um ponto homogêneo. pegar esse ponto homogêneo 
-    for(int i = 0; i < objeto->nPontos; i++) {
-        homogeneas[i] = multMatriz4dPonto(objeto->modelMatrix, homogeneas[i]);
+    for (int i = 0; i < objeto->nPontos; i++) {
+        printf("Ponto %d: [", i + 1);
+        for (int j = 0; j < 4; j++) { // assumindo 4 coordenadas (x, y, z, w)
+            printf("%.2f", homogeneas[i][j]);
+            if (j < 3) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
     }
-    
-    //multiplicar a model matrix pela coordenada e salvar em coordenada
+    //NÃO ESTÁ TESTADO SE  SERÁ NECESSÁRIO NORMALIZAR O RESULTADO
+
+
+    for(int i = 0; i < objeto->nPontos; i++){
+        objeto->pontos[i] = homogeneas[i];
+    }
+
+    liberarCoordenadasHomogeneas(homogeneas, objeto->nPontos);
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
