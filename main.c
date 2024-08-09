@@ -39,8 +39,9 @@ int main( int argc, char * argv[] ){
         return 1;
     }
 
+    criaIdentidade4d(objeto->modelMatrix);
     imprimeObjetoDBG(objeto);
-
+    
     SDL_Event windowEvent;
     while(1){
         if( SDL_PollEvent(&windowEvent)){
@@ -55,8 +56,6 @@ int main( int argc, char * argv[] ){
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
         //===================================
-
-        criaIdentidade4d(objeto->modelMatrix);
         printf("ANTES DE TRANSLADAR");
         imprimeObjetoDBG(objeto);
         transladaObjeto(objeto, WIDTH / 2.0f, HEIGHT / 2.0f, 0.0f);
