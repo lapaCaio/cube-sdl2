@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include "objeto.h"
+#include "algebra.h"
 
 //L� as informa��es de um arquivo e as carrega num novo objeto alocado
 tObjeto3d *carregaObjeto(char *nomeArquivo){

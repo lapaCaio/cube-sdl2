@@ -39,7 +39,7 @@ int main( int argc, char * argv[] ){
         return 1;
     }
 
-    imprimeObjetoDBG(&objeto);
+    imprimeObjetoDBG(objeto);
 
     SDL_Event windowEvent;
     while(1){
@@ -57,7 +57,7 @@ int main( int argc, char * argv[] ){
         //===================================
 
         criaIdentidade4d(objeto->modelMatrix);
-        transladaObjeto(&objeto, 400.0f, 300.0f, 0.0f);
+        transladaObjeto(objeto, 400.0f, 300.0f, 0.0f);
 
 
 

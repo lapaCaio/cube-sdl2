@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 //Ajusta valores de um matriz 4d para uma matriz identidade
 void criaIdentidade4d(float **novaMatriz) {
