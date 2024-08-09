@@ -64,9 +64,6 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
     //pegar os pontos e transformar em coordenadas homogêneas (x, y, z, w=1)
     float **homogeneas = converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
 
-    for(int i = 0; i < 8; i++) {
-        printf("%1.2f", &homogeneas[i]);
-    }
     //multiplicar a model matrix por um ponto homogêneo. pegar esse ponto homogêneo 
     
     //multiplicar a model matrix pela coordenada e salvar em coordenada
