@@ -58,32 +58,6 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
 void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ) {
-    if(objeto->modelMatrix[0][3] != transX && objeto->modelMatrix[1][3] != transY && objeto->modelMatrix[2][3] != transZ) {
-        objeto->modelMatrix[0][3] = transX;
-        objeto->modelMatrix[1][3] = transY;
-        objeto->modelMatrix[2][3] = transZ;
-        //pegar os pontos e transformar em coordenadas homogêneas (x, y, z, w=1)
-        float **homogeneas = converterParaCoordenadasHomogeneas(objeto->pontos, objeto->nPontos);
-        //multiplicar a model matrix por um ponto homogêneo. pegar esse ponto homogêneo 
-
-        //apenas para visualização
-        for (int i = 0; i < objeto->nPontos; i++) {
-            printf("Ponto %d: [", i + 1);
-            for (int j = 0; j < 4; j++) { // assumindo 4 coordenadas (x, y, z, w)
-                printf("%.2f", homogeneas[i][j]);
-                if (j < 3) {
-                    printf(", ");
-                }
-            }
-            printf("]\n");
-        }
-
-        for(int i = 0; i < objeto->nPontos; i++){
-            objeto->pontos[i] = homogeneas[i];
-        }
-
-        liberarCoordenadasHomogeneas(homogeneas, objeto->nPontos);  
-    } 
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
