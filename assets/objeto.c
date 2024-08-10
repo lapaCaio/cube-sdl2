@@ -113,7 +113,7 @@ void rotacionaObjetoEixoX(tObjeto3d *objeto, float angulo)
     //Rotaciona os pontos e salva-os
     for(int i=0; i < 4; i++)
     {
-        float *resultado = multMatriz4dPontoO(matriz4dRotacao, objeto->modelMatrix[i]);
+        float *resultado = multMatriz4dPonto(matriz4dRotacao, objeto->modelMatrix[i]);
         
         //Salva-os
         for(int j=0; j < 3; j++)
