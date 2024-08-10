@@ -69,6 +69,7 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
 
     //Escala os pontos e salva-os
     multMatriz4d(matrizHomogeneaEscala, objeto->modelMatrix);
+
     //Libera o espaço da matriz de escala criada
     for(int i=0; i<4; i++)
     {
@@ -88,9 +89,9 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
 
     criaIdentidade4d(matrizHomogeneaTranslacao);
 
-    matrizHomogeneaTranslacao[0][3] = transX + objeto->modelMatrix[0][0];
-    matrizHomogeneaTranslacao[1][3] = transY + objeto->modelMatrix[0][1];
-    matrizHomogeneaTranslacao[2][3] = transZ + objeto->modelMatrix[0][2];
+    matrizHomogeneaTranslacao[0][3] = transX;
+    matrizHomogeneaTranslacao[1][3] = transY;
+    matrizHomogeneaTranslacao[2][3] = transZ;
 
     multMatriz4d(matrizHomogeneaTranslacao, objeto->modelMatrix);
 
