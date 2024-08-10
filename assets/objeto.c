@@ -70,6 +70,7 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
     //Escala os pontos e salva-os
     multMatriz4d(matrizHomogeneaEscala, objeto->modelMatrix);
 
+    
     //Libera o espaço da matriz de escala criada
     for(int i=0; i<4; i++)
     {
