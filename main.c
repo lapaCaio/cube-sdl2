@@ -4,6 +4,12 @@
 #include "assets/tela.h"
 #include "assets/algebra.h"
 
+#define transInicial 0.0f
+#define transPasso 1.0f
+
+#define escalaInicial 1.0f
+#define escalaPasso 0.2f
+
 // desenha um objeto na tela
 void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto)
 {
@@ -57,19 +63,61 @@ int main(int argc, char *argv[])
                 break;
             }
         }
+        
+        float transX = transInicial;
+        float transY = transInicial;
+        float transZ = transInicial;
+
+        float escalaX = escalaInicial;
+        float escalaY = escalaInicial;
+        float escalaZ = escalaInicial;
+
+        if(windowEvent.type == SDL_KEYDOWN)
+        {
+            if(windowEvent.key.keysym.sym == SDLK_w) { transY = transPasso; }
+            if(windowEvent.key.keysym.sym == SDLK_s) { transY = -transPasso; }
+            if(windowEvent.key.keysym.sym == SDLK_d) { transX = transPasso; }
+            if(windowEvent.key.keysym.sym == SDLK_a) { transX = -transPasso; }
+        }
+
+        if(windowEvent.type == SDL_MOUSEWHEEL)
+        {
+            if(windowEvent.wheel.y > 0)
+            {
+                escalaX += escalaPasso;
+                escalaY += escalaPasso;
+            }
+
+            if(windowEvent.wheel.y < 0)
+            {
+                escalaX -= escalaPasso;
+                escalaY -= escalaPasso;
+            }
+        }
+
+        transladaObjeto(objeto, transX, 0, 0);
+
+        if(transX != transInicial || transY != transInicial || transZ != transInicial)
+        {
+            printf("Transladando...\n");
+            transladaObjeto(objeto, transX, transY, transZ);
+        }
+
+        if(escalaX != escalaInicial || escalaY != escalaInicial || escalaZ != escalaInicial)
+        {
+            printf("Escalando...\n");
+            escalaObjeto(objeto, escalaX, escalaY, escalaZ);
+        }
+
+        imprimeObjetoDBG(objeto);
+
+        //===================================
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-        //===================================
-        //escalaObjeto(objeto, 2.0f, 1.5f, 1.0f);
-        transladaObjeto(objeto, 1.2f, 1.5f, 0.0f);
-
-        imprimeObjetoDBG(objeto);
-
-        //===================================
 
         desenhaObjetoTela(renderer, objeto->modelMatrix, objeto);
 
