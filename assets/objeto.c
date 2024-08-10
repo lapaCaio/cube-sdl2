@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <math.h>
 #include "objeto.h"
 #include "algebra.h"
 
@@ -52,8 +53,40 @@ tObjeto3d *carregaObjeto(char *nomeArquivo){
 }
 
 //Altera a modelMatrix de um objeto para redimenciona-lo segundo os par�metros escalaX, escalaY e escalaZ
-void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ){
+void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ)
+{
+    float **matrizHomogeneaEscala = (float**) malloc(4*sizeof(float*));
+    for(int i=0; i<4; i++)
+    {
+        matrizHomogeneaEscala[i] = (float*) malloc(sizeof(float));
+    }
 
+    criaIdentidade4d(matrizHomogeneaEscala);
+
+    matrizHomogeneaEscala[0][0] = escalaX;
+    matrizHomogeneaEscala[1][1] = escalaY;
+    matrizHomogeneaEscala[2][2] = escalaZ;
+
+    //Escala os pontos e salva-os
+    for(int i=0; i < 4; i++)
+    {
+        float *resultado = multMatriz4dPonto(matrizHomogeneaEscala, objeto->modelMatrix[i]);
+
+        //Salva-os
+        for(int j=0; j < objeto->nPontos; j++)
+        {
+            objeto->modelMatrix[i][j] = resultado[j];
+        }
+
+        free(resultado);
+    }
+
+    //Libera o espaço da matriz de escala criada
+    for(int i=0; i<4; i++)
+    {
+        free(matrizHomogeneaEscala[i]);
+    }
+    free(matrizHomogeneaEscala);
 }
 
 //Altera a modelMatrix de um objeto para translada-lo segundo os par�metros transX, transY e transZ
@@ -87,18 +120,124 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo X segundo o angulo informado
-void rotacionaObjetoEixoX(tObjeto3d *objeto, float angulo){
+void rotacionaObjetoEixoX(tObjeto3d *objeto, float angulo)
+{
+    //Cria a matriz de rotação do eixo X
+    float **matriz4dRotacao = (float**) malloc(4*sizeof(float*));
+    for(int i=0; i<4; i++)
+    {
+        matriz4dRotacao[i] = (float*) malloc(sizeof(float));
+    }
 
+    //Inicializa a matriz
+    criaIdentidade4d(matriz4dRotacao);
+    matriz4dRotacao[1][1] = cosf(angulo);
+    matriz4dRotacao[1][2] = -sinf(angulo);
+    matriz4dRotacao[2][1] = sinf(angulo);
+    matriz4dRotacao[2][2] = cosf(angulo);
+
+    //Rotaciona os pontos e salva-os
+    for(int i=0; i < 4; i++)
+    {
+        float *resultado = multMatriz4dPontoO(matriz4dRotacao, objeto->modelMatrix[i]);
+        
+        //Salva-os
+        for(int j=0; j < 3; j++)
+        {
+            objeto->modelMatrix[i][j] = resultado[j];
+        }
+
+        free(resultado);
+    }
+
+
+    //Libera o espaço da matriz de rotação criada
+    for(int i=0; i<4; i++)
+    {
+        free(matriz4dRotacao[i]);
+    }
+    free(matriz4dRotacao);
+    
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo Y segundo o angulo informado
-void rotacionaObjetoEixoY(tObjeto3d *objeto, float angulo){
+void rotacionaObjetoEixoY(tObjeto3d *objeto, float angulo)
+{
+    //Cria a matriz de rotação do eixo Y
+    float **matriz4dRotacao = (float**) malloc(4*sizeof(float*));
+    for(int i=0; i<4; i++)
+    {
+        matriz4dRotacao[i] = (float*) malloc(sizeof(float));
+    }
 
+    //Inicializa a matriz
+    criaIdentidade4d(matriz4dRotacao);
+    matriz4dRotacao[0][0] = cosf(angulo);
+    matriz4dRotacao[0][2] = -sinf(angulo);
+    matriz4dRotacao[2][0] = sinf(angulo);
+    matriz4dRotacao[2][2] = cosf(angulo);
+
+    //Rotaciona os pontos do objeto
+    for(int i=0; i < 4; i++)
+    {
+        float *resultado = multMatriz4dPonto(matriz4dRotacao, objeto->modelMatrix[i]);
+
+        //Salva-os
+        for(int j=0; j < 3; j++)
+        {
+            objeto->modelMatrix[i][j] = resultado[j];
+        }
+
+        free(resultado);
+    }
+
+
+    //Libera o espaço da matriz de rotação criada
+    for(int i=0; i<4; i++)
+    {
+        free(matriz4dRotacao[i]);
+    }
+    free(matriz4dRotacao);
 }
 
 //Altera a modelMatrix de um objeto para rotaciona-lo ao redor do eixo Z segundo o angulo informado
-void rotacionaObjetoEixoZ(tObjeto3d *objeto, float angulo){
+void rotacionaObjetoEixoZ(tObjeto3d *objeto, float angulo)
+{
+    //Cria a matriz de rotação do eixo Z
+    float **matriz4dRotacao = (float**) malloc(4*sizeof(float*));
+    for(int i=0; i<4; i++)
+    {
+        matriz4dRotacao[i] = (float*) malloc(sizeof(float));
+    }
 
+    //Inicializa a matriz
+    criaIdentidade4d(matriz4dRotacao);
+    matriz4dRotacao[0][0] = cosf(angulo);
+    matriz4dRotacao[0][1] = -sinf(angulo);
+    matriz4dRotacao[1][0] = sinf(angulo);
+    matriz4dRotacao[1][1] = cosf(angulo);
+
+    //Rotaciona os pontos do objeto e salva-os
+    for(int i=0; i < 4; i++)
+    {
+        float *resultado = multMatriz4dPonto(matriz4dRotacao, objeto->modelMatrix[i]);
+
+        //Salva-os
+        for(int j=0; j < 3; j++)
+        {
+            objeto->modelMatrix[i][j] = resultado[j];
+        }
+
+        free(resultado);
+    }
+
+
+    //Libera o espaço da matriz de rotação criada
+    for(int i=0; i<4; i++)
+    {
+        free(matriz4dRotacao[i]);
+    }
+    free(matriz4dRotacao);
 }
 
 //Imprime um objeto no terminal

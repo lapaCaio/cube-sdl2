@@ -106,7 +106,7 @@ float** converterParaCoordenadasHomogeneas(float **pontos, int nPontos) {
 // Função para liberar a memória alocada para coordenadas homogêneas
 void liberarCoordenadasHomogeneas(float **homogeneas, int nPontos) {
     if (homogeneas != NULL) {
-        for (int i = 0; i < nPontos; i++) {
+        for (int i = 0; i < nPontos + 1; i++) {
             free(homogeneas[i]);
         }
         free(homogeneas);
