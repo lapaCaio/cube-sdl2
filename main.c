@@ -4,9 +4,11 @@
 #include "assets/tela.h"
 #include "assets/algebra.h"
 
-//desenha um objeto na tela
-void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto) {
-    for (int i = 0; i < objeto->nArestas; i++) {
+// desenha um objeto na tela
+void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto)
+{
+    for (int i = 0; i < objeto->nArestas; i++)
+    {
         int ponto1 = objeto->arestas[i][0];
         int ponto2 = objeto->arestas[i][1];
         SDL_RenderDrawLine(renderer,
@@ -15,25 +17,28 @@ void desenhaObjetoTela(SDL_Renderer *renderer, float **matriz, tObjeto3d *objeto
     }
 }
 
+int main(int argc, char *argv[])
+{
 
-int main( int argc, char * argv[] ){
-
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0){
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
         printf("SDL não inicializou! SDL Erro: %s\n", SDL_GetError());
     }
 
-    SDL_Window *window = criaTela("Hello SDL World!");
-    if(window == NULL){
+    SDL_Window *window = criaTela("CUBE SDL2");
+    if (window == NULL)
+    {
         printf("SDL não criou a janela! SDL Erro: %s\n", SDL_GetError());
         SDL_Quit();
-        return 0;   
+        return 0;
     }
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
-    
+
     // Ler o arquivo cubo.dcg e carregar o objeto 3D
     tObjeto3d *objeto = carregaObjeto("cubo.dcg");
-    if (objeto == NULL) {
+    if (objeto == NULL)
+    {
         desalocaTela(window);
         SDL_Quit();
         return 1;
@@ -43,9 +48,12 @@ int main( int argc, char * argv[] ){
     imprimeObjetoDBG(objeto);
 
     SDL_Event windowEvent;
-    while(1){
-        if( SDL_PollEvent(&windowEvent)){
-            if(windowEvent.type == SDL_QUIT){
+    while (1)
+    {
+        if (SDL_PollEvent(&windowEvent))
+        {
+            if (windowEvent.type == SDL_QUIT)
+            {
                 break;
             }
         }
@@ -59,13 +67,11 @@ int main( int argc, char * argv[] ){
         //escalaObjeto(objeto, 2.0f, 1.5f, 1.0f);
         transladaObjeto(objeto, 1.2f, 1.5f, 0.0f);
 
-        printf("Depois de transladar saporra---------------------\n");
         imprimeObjetoDBG(objeto);
 
         //===================================
 
         desenhaObjetoTela(renderer, objeto->modelMatrix, objeto);
-
 
         SDL_RenderPresent(renderer);
     }
@@ -74,7 +80,6 @@ int main( int argc, char * argv[] ){
     desalocaObjeto(objeto);
     desalocaTela(window);
     SDL_Quit();
-
 
     return 1;
 }
