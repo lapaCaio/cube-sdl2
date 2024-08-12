@@ -25,8 +25,9 @@ tObjeto3d *carregaObjeto(char *nomeArquivo){
     // Aloca memória para os pontos
     objeto->pontos = (float**)malloc(objeto->nPontos * sizeof(float*));
     for (int i = 0; i < objeto->nPontos; i++) {
-        objeto->pontos[i] = (float*)malloc(3 * sizeof(float));
+        objeto->pontos[i] = (float*)malloc(4 * sizeof(float));
         fscanf(arquivo, "%f %f %f", &objeto->pontos[i][0], &objeto->pontos[i][1], &objeto->pontos[i][2]);
+        objeto->pontos[i][3] = 1.0f;
     }
 
     // Lê a quantidade de arestas
@@ -68,7 +69,7 @@ void escalaObjeto(tObjeto3d *objeto, float escalaX, float escalaY, float escalaZ
     matrizHomogeneaEscala[2][2] = escalaZ;
 
     //Escala os pontos e salva-os
-    multMatriz4d(matrizHomogeneaEscala, objeto->modelMatrix);
+    moverParaOrigemMultiplicarERetornar(matrizHomogeneaEscala, objeto->modelMatrix);
 
     
     //Libera o espaço da matriz de escala criada
@@ -101,6 +102,7 @@ void transladaObjeto(tObjeto3d *objeto, float transX, float transY, float transZ
     {
         free(matrizHomogeneaTranslacao[i]);
     }
+
     free(matrizHomogeneaTranslacao);
 }
 
@@ -122,7 +124,7 @@ void rotacionaObjetoEixoX(tObjeto3d *objeto, float angulo)
     matriz4dRotacao[2][2] = cosf(angulo);
 
     //Rotaciona os pontos e salva-os
-    multMatriz4d(matriz4dRotacao, objeto->modelMatrix);
+    moverParaOrigemMultiplicarERetornar(matriz4dRotacao, objeto->modelMatrix);
 
 
     //Libera o espaço da matriz de rotação criada
@@ -152,7 +154,7 @@ void rotacionaObjetoEixoY(tObjeto3d *objeto, float angulo)
     matriz4dRotacao[2][2] = cosf(angulo);
 
     //Rotaciona os pontos do objeto
-    multMatriz4d(matriz4dRotacao, objeto->modelMatrix);
+    moverParaOrigemMultiplicarERetornar(matriz4dRotacao, objeto->modelMatrix);
 
 
     //Libera o espaço da matriz de rotação criada
@@ -180,8 +182,10 @@ void rotacionaObjetoEixoZ(tObjeto3d *objeto, float angulo)
     matriz4dRotacao[1][0] = sinf(angulo);
     matriz4dRotacao[1][1] = cosf(angulo);
 
+
     //Rotaciona os pontos do objeto e salva-os
-    multMatriz4d(matriz4dRotacao, objeto->modelMatrix);
+    moverParaOrigemMultiplicarERetornar(matriz4dRotacao, objeto->modelMatrix);
+    //multMatriz4d(matriz4dRotacao, objeto->modelMatrix);
 
 
     //Libera o espaço da matriz de rotação criada
@@ -242,6 +246,23 @@ void desalocaObjeto(tObjeto3d *objeto){
 
         free(objeto);
     }
+}
+
+void moverParaOrigemMultiplicarERetornar(float **matriz4d, float **modelMatrix)
+{
+    float tempX = modelMatrix[0][3];
+    float tempY = modelMatrix[1][3];
+    float tempZ = modelMatrix[2][3];
+
+    modelMatrix[0][3] = 0.0f;
+    modelMatrix[1][3] = 0.0f;
+    modelMatrix[2][3] = 0.0f;
+
+    multMatriz4d(matriz4d, modelMatrix);
+
+    modelMatrix[0][3] = tempX;
+    modelMatrix[1][3] = tempY;
+    modelMatrix[2][3] = tempZ;
 }
 
 
