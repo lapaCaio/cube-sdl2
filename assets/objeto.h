@@ -37,3 +37,6 @@ void imprimeObjetoDBG(tObjeto3d *objeto);
 
 // Desaloca o objeto
 void desalocaObjeto(tObjeto3d *objeto);
+
+//Move a componente de translação da modelMatrix para a origem, faz a multiplicação das matrizes, e depois retorna aonde estava
+void moverParaOrigemMultiplicarERetornar(float **matriz4d, float **modelMatrix);

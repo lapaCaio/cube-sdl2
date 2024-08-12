@@ -47,7 +47,7 @@ float *multMatriz4dPonto(float **matriz, float *ponto)
     {
         for (int j = 0; j < 4; j++)
         {
-            resultado[j] += matriz[j][i] * ponto[i];
+            resultado[i] += matriz[i][j] * ponto[j];
         }
     }
 
