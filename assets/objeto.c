@@ -264,6 +264,3 @@ void moverParaOrigemMultiplicarERetornar(float **matriz4d, float **modelMatrix)
     modelMatrix[1][3] = tempY;
     modelMatrix[2][3] = tempZ;
 }
-
-
-

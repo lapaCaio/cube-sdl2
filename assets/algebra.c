@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Ajusta valores de um matriz 4d para uma matriz identidade
 void criaIdentidade4d(float **novaMatriz)
@@ -89,4 +90,49 @@ void multMatriz4d(float **matrizA, float **matrizB)
         free(resultado[i]);
     }
     free(resultado);
+}
+
+float* calcularVetor3d(float* ponto3dInicio, float* ponto3dFim)
+{
+    float* vetor = malloc(sizeof(float)*3);
+
+    for(int i=0; i < 3; i++)
+    {
+        vetor[i] = ponto3dFim[i] - ponto3dInicio[i];
+    }
+
+    return vetor;
+}
+
+float calcularMagnitudeVetor3d(float* vetor3d)
+{
+    float magnitude = 0.0f;
+
+    for(int i=0; i < 3; i++)
+    {
+        magnitude += powf(vetor3d[i], 2);
+    }
+
+    return sqrt(magnitude);
+}
+
+void normalizarVetor3d(float** vetor3d)
+{
+    float magnitude = calcularMagnitudeVetor3d(vetor3d);
+
+    for(int i=0; i < 3; i++)
+    {
+        (*vetor3d)[i] /= magnitude;
+    }
+}
+
+float* calcularProdutoVetorial3d(float* vetor3d1, float*vetor3d2)
+{
+    float* produtoVetorial3d = malloc(sizeof(float)*3);
+
+    produtoVetorial3d[0] = vetor3d1[1]*vetor3d2[2] - vetor3d1[2]*vetor3d2[1];
+    produtoVetorial3d[1] = vetor3d1[2]*vetor3d2[0] - vetor3d1[0]*vetor3d2[2];
+    produtoVetorial3d[2] = vetor3d1[0]*vetor3d2[1] - vetor3d1[1]*vetor3d2[0];
+
+    return produtoVetorial3d;
 }
