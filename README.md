@@ -1,6 +1,7 @@
 # Cube SDL2 Project
 
-Este projeto implementa a renderização de um objeto 3D em C usando a biblioteca SDL2. O código permite a manipulação do objeto através de várias transformações, incluindo rotação, translação e escala, que são aplicadas usando uma matriz de transformação (`modelMatrix`).
+Este projeto implementa a renderização de um objeto 3D em C usando a biblioteca SDL2. O código permite a manipulação do objeto através de várias transformações, incluindo rotação, translação e escala, que são aplicadas usando uma matriz de transformação (`modelMatrix`). 
+Tambem foram implementadas manipulações básicas de câmera e de perspectiva. onde a camera pode mudar seu foco, e a perspectiva alterar entre os modos ortogonal e perspectiva.
 
 ## Grupo
 Caio Pereira Lapa, Gustavo Provete de Andrade, Ruan Vieira Ribeiro
@@ -16,6 +17,10 @@ Caio Pereira Lapa, Gustavo Provete de Andrade, Ruan Vieira Ribeiro
 │   ├── objeto.h
 │   ├── tela.c
 │   └── tela.h
+│   ├── camera.c
+│   └── camera.h
+│   ├── projecao.c
+│   └── projecao.h
 ├── debug/                   # Arquivos de debug
 ├── src/                  
 │   ├── include/ 
@@ -32,17 +37,20 @@ Caio Pereira Lapa, Gustavo Provete de Andrade, Ruan Vieira Ribeiro
 
 ## Controles
 
-- **W** - Move para cima
-- **S** - Move para baixo
-- **A** - Move para a esquerda
-- **D** - Move para a direita
-- **LSHIFT** - Move para frente (Necessita implementar perspectiva)
-- **LCTRL** - Move para trás (Necessita implementar perspectiva)
+- **W** - Move para Y positivo
+- **S** - Move para Y negativo
+- **A** - Move para X negativo
+- **D** - Move para X positivo
+- **LSHIFT** - Move para Z positivo
+- **LCTRL** - Move para Z negativo
 - **MouseWheelUp** - Aumenta o tamanho do objeto
 - **MouseWheelDown** - Diminui o tamanho do objeto
 - **Y** e **H** - Rotaciona no eixo X, aumentando e diminuindo o ângulo
 - **G** e **J** - Rotaciona no eixo Y, aumentando e diminuindo o ângulo
 - **I** e **K** - Rotaciona no eixo Z, aumentando e diminuindo o ângulo
+- **P** - Muda o modo de pespectiva da projeção para *perspectiva*
+- **o** - Muda o modo de pespectiva da projeção para *ortografica*
+- **c** - Faz a camera focar no primeiro ponto do objeto
 
 ## Descrição do Projeto
 
@@ -55,12 +63,13 @@ Essas transformações possibilitam alterar a posição dos pontos do objeto no 
 
 As funcionalidades implementadas até o momento incluem:
 
-- **Translação**: Mover o objeto para diferentes direções (cima, baixo, esquerda, direita).
+- **Translação**: Mover o objeto para diferentes direções (X, Y e Z).
 - **Rotação**: Rotacionar o objeto em torno dos eixos X, Y e Z.
 - **Escala**: Aumentar ou diminuir o tamanho do objeto.
 - **Angulação**: Ajustar o ângulo de rotação do objeto em torno dos eixos, modificando sua orientação no espaço.
-
-**Nota**: As opções de mover para frente e mover para trás ainda não foram implementadas, pois é necessário desenvolver funções para gerar a noção de perspectiva.
+- **Visão de profundidade**: Os pontos do objeto apresentão ilusão de profundidade no modo de perspectiva *perspectiva*
+- **Alteração do modo de perspectiva**: A projeção pode ser alterada entre os modos *ortografico* e *perspectiva*
+- **Focar a camera em um ponto do objeto**: A camera pode ser focada em um ponto do objeto
 
 
 ## Arquivo de Objeto (cubo.dcg)
