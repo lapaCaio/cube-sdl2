@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "objeto.h": "c",
-        "algebra.h": "c"
+        "algebra.h": "c",
+        "sdl.h": "c"
     }
 }

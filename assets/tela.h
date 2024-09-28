@@ -1,3 +1,6 @@
+#ifndef tela_h
+#define tela_h
+
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
@@ -12,3 +15,5 @@ void desenhaArestaTela(SDL_Renderer *renderer, float *ponto1, float *ponto2);
 
 // Desaloca a tela
 void desalocaTela(SDL_Window *window);
+
+#endif

@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "algebra.h"
+#include "camera.h"
+#include "projecao.h"
+#include "objeto.h"
 
 // Ajusta valores de um matriz 4d para uma matriz identidade
 void criaIdentidade4d(float **novaMatriz)
@@ -17,6 +21,25 @@ void criaIdentidade4d(float **novaMatriz)
     {
         novaMatriz[i][i] = 1.0f;
     }
+}
+
+float** alocaIdentidade4d()
+{
+    float** novaIdentidade4d = (float**) malloc(sizeof(float*) * 4);
+
+    if(novaIdentidade4d == NULL)
+    {
+        return NULL;
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        novaIdentidade4d[i] = (float*) malloc(sizeof(float) * 4);
+    }
+
+    criaIdentidade4d(novaIdentidade4d);
+
+    return novaIdentidade4d;
 }
 
 // Imprime uma matriz 4d no terminal
@@ -116,13 +139,13 @@ float calcularMagnitudeVetor3d(float* vetor3d)
     return sqrt(magnitude);
 }
 
-void normalizarVetor3d(float** vetor3d)
+void normalizarVetor3d(float* vetor3d)
 {
     float magnitude = calcularMagnitudeVetor3d(vetor3d);
 
     for(int i=0; i < 3; i++)
     {
-        (*vetor3d)[i] /= magnitude;
+        vetor3d[i] /= magnitude;
     }
 }
 
@@ -135,4 +158,32 @@ float* calcularProdutoVetorial3d(float* vetor3d1, float*vetor3d2)
     produtoVetorial3d[2] = vetor3d1[0]*vetor3d2[1] - vetor3d1[1]*vetor3d2[0];
 
     return produtoVetorial3d;
+}
+
+float* normalizarPonto4dEmModel(float* ponto4d, tObjeto3d* objeto)
+{
+    float* pontoNormalizadoEmModelView = multMatriz4dPonto(objeto->modelMatrix, ponto4d);
+
+    return pontoNormalizadoEmModelView;
+}
+
+float** calcularMatrizMVP(tObjeto3d* objeto, Camera* camera, Projecao* projecao)
+{
+    float** matrizFinal = alocaIdentidade4d();
+
+    multMatriz4d(objeto->modelMatrix, matrizFinal);
+    multMatriz4d(camera->viewMatrix, matrizFinal);
+    multMatriz4d(projecao->projectionMatrix, matrizFinal);
+
+    return matrizFinal;
+}
+
+void desalocaMatrix4d(float** matrix4d)
+{
+    for(int i=0; i < 4; i++)
+    {
+        free(matrix4d[i]);
+    }
+
+    free(matrix4d);
 }

@@ -12,14 +12,10 @@ typedef struct camera
 Camera* criaCamera(
     float posX,
     float posY,
-    float posZ,
-
-    float focoX,
-    float focoY,
-    float focoZ
+    float posZ
 );
 
-void defineCamera(Camera* camera);
+void defineCamera(Camera* camera, float* foco);
 
 void desalocaCamera(Camera* camera);
 

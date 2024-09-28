@@ -1,8 +1,8 @@
+#ifndef object_h
+#define object_h
+
 #include <stdio.h>
 #include <SDL2/SDL.h>
-
-#ifndef tObj
-#define tObj
 
 typedef struct _tObj
 {
@@ -12,7 +12,6 @@ typedef struct _tObj
     int **arestas;
     float **modelMatrix;
 } tObjeto3d;
-#endif // tObj
 
 // L� as informa��es de um arquivo e as carrega num novo objeto alocado
 tObjeto3d *carregaObjeto(char *nomeArquivo);
@@ -40,3 +39,5 @@ void desalocaObjeto(tObjeto3d *objeto);
 
 //Move a componente de translação da modelMatrix para a origem, faz a multiplicação das matrizes, e depois retorna aonde estava
 void moverParaOrigemMultiplicarERetornar(float **matriz4d, float **modelMatrix);
+
+#endif

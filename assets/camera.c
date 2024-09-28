@@ -6,15 +6,21 @@ void defineCamera(Camera* camera, float* foco)
 {
     camera->foco[0] = foco[0];
     camera->foco[1] = foco[1];
-    camera->foco[1] = foco[2];
+    camera->foco[2] = foco[2];
 
     float* vetorFrente = calcularVetor3d(camera->posicao, camera->foco);
-    normalizarVetor3d(&vetorFrente);
+    normalizarVetor3d(vetorFrente);
     
     float* vetorEsquerda = calcularProdutoVetorial3d(camera->cima, vetorFrente);
-    normalizarVetor3d(&vetorEsquerda);
+    normalizarVetor3d(vetorEsquerda);
     
     float* vetorCima = calcularProdutoVetorial3d(vetorFrente, vetorEsquerda);
+
+    printf("VetorCima: (%f, %f, %f)\n", vetorCima[0], vetorCima[1], vetorCima[2]);
+
+    camera->cima[0] = vetorCima[0];
+    camera->cima[1] = vetorCima[1];
+    camera->cima[2] = vetorCima[2];
 
     camera->viewMatrix[0][0] = vetorEsquerda[0];
     camera->viewMatrix[0][1] = vetorEsquerda[1];
@@ -44,6 +50,11 @@ Camera* criaCamera(
 )
 {
     Camera* novaCamera = (Camera*) malloc(sizeof(Camera));
+
+    if(novaCamera == NULL)
+    {
+        return  NULL;
+    }
     
     novaCamera->posicao = (float*) malloc(sizeof(float)*3);
     novaCamera->foco = (float*) malloc(sizeof(float) * 3);
@@ -60,7 +71,8 @@ Camera* criaCamera(
     novaCamera->cima[0] = 0;
     novaCamera->cima[1] = 1;
     novaCamera->cima[0] = 0;
-    criaIdentidade4d(novaCamera->viewMatrix);
+
+    novaCamera->viewMatrix = alocaIdentidade4d();
 
     defineCamera(novaCamera, novaCamera->foco);
 
@@ -85,4 +97,5 @@ void desalocaCamera(Camera* camera)
     }
 
     free(camera->viewMatrix);
+    free(camera);
 }
