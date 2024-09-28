@@ -16,9 +16,9 @@ Caio Pereira Lapa, Gustavo Provete de Andrade, Ruan Vieira Ribeiro
 │   ├── objeto.c
 │   ├── objeto.h
 │   ├── tela.c
-│   └── tela.h
+│   ├── tela.h
 │   ├── camera.c
-│   └── camera.h
+│   ├── camera.h
 │   ├── projecao.c
 │   └── projecao.h
 ├── debug/                   # Arquivos de debug
